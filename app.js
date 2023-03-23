@@ -7,6 +7,15 @@ class Expense {
         this.description = description;
         this.value = value;
     }
+
+    validateData() {
+        for(let i in this) {
+            if(this[i] === undefined || this[i] === '' || this[i] === null) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 class Bd {
@@ -51,5 +60,12 @@ function registerExpense() {
         value.value
     );
 
-    bd.record(expense);
+    if(expense.validateData()) {
+        bd.record(expense);
+        var meuModal = new bootstrap.Modal(document.getElementById('successModal'));
+        meuModal.show();
+    } else {
+        var meuModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        meuModal.show();
+    }
 }
