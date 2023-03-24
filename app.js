@@ -60,12 +60,29 @@ function registerExpense() {
         value.value
     );
 
+    let meuModal = new bootstrap.Modal(document.getElementById('alertModal'));
+    let titleModel =  document.getElementById('alertModalLabel');
+    let modalHeader =  document.getElementById('modalHeader');
+    let modalBody =  document.getElementById('modalBody');
+    let buttonModal =  document.getElementById('buttonModal');
+
     if(expense.validateData()) {
         bd.record(expense);
-        var meuModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+        titleModel.innerHTML = 'Registro inserido com sucesso';
+        modalBody.innerHTML = 'Despesa foi cadastrada com sucesso!';
+        modalHeader.className = 'modal-header text-success';
+        buttonModal.className = 'btn btn-success';
+        buttonModal.innerHTML = 'Voltar';
+
         meuModal.show();
     } else {
-        var meuModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        titleModel.innerHTML = 'Error na gravação';
+        modalBody.innerHTML = 'Existem campos obrigatórios que não foram preechidos';
+        modalHeader.className = 'modal-header text-danger';
+        buttonModal.className = 'btn btn-danger';
+        buttonModal.innerHTML = 'Voltar e corrigir';
+        
         meuModal.show();
     }
 }
