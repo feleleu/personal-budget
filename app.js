@@ -39,6 +39,19 @@ class Bd {
         localStorage.setItem(id, JSON.stringify(d));
         localStorage.setItem('id', id);
     }
+
+    getAllRecords() {
+        let expenses = [];
+        const id = localStorage.getItem('id');
+
+        for(let i = 1; i <= id; i++) {
+            let expense = JSON.parse(localStorage.getItem(i));
+
+            if(expense === null) continue;
+            expenses.push(expense);
+        }
+        return expenses;
+    }
 }
 
 let bd = new Bd();
@@ -85,4 +98,38 @@ function registerExpense() {
         
         meuModal.show();
     }
+}
+
+function loadsExpenseList() {
+    let expenses = [];
+    expenses = bd.getAllRecords();
+    let expenseList = document.getElementById('expenseList');
+
+    expenses.forEach(function(d) {
+        let line = expenseList.insertRow();
+        
+        switch (parseInt(d.type)) {
+            case 1:
+                d.type = 'Alimentação';
+                break;
+            case 2:
+                d.type = 'Educação';
+                break;
+            case 3:
+                d.type = 'Lazer';
+                break;
+            case 4:
+                d.type = 'Saúde';
+                break;
+            case 5:
+                d.type = 'Transporte';
+                break;
+        }
+
+        line.insertCell(0).innerHTML = `${d.day}/${d.month}/${d.year}`;
+        line.insertCell(1).innerHTML = d.type;
+        line.insertCell(2).innerHTML = d.description;
+        line.insertCell(3).innerHTML = d.value;
+    });
+    
 }
