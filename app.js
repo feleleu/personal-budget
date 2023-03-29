@@ -78,7 +78,7 @@ function registerExpense() {
     let modalHeader =  document.getElementById('modalHeader');
     let modalBody =  document.getElementById('modalBody');
     let buttonModal =  document.getElementById('buttonModal');
-    meuModal.show();
+
     if(expense.validateData()) {
         bd.record(expense);
 
