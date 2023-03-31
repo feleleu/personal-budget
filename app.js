@@ -52,6 +52,20 @@ class Bd {
         }
         return expenses;
     }
+
+    search(expense) {
+        let expensesFilter = [];
+        expensesFilter = this.getAllRecords();
+        
+        if(expense.year != '') expensesFilter = expensesFilter.filter(d => d.year == expense.year);
+        if(expense.month != '') expensesFilter = expensesFilter.filter(d => d.month == expense.month);
+        if(expense.day != '') expensesFilter = expensesFilter.filter(d => d.day == expense.day);
+        if(expense.type != '') expensesFilter = expensesFilter.filter(d => d.type == expense.type);
+        if(expense.description != '') expensesFilter = expensesFilter.filter(d => d.description == expense.description);
+        if(expense.value != '') expensesFilter = expensesFilter.filter(d => d.value == expense.value);
+
+        return expensesFilter;
+    }
 }
 
 let bd = new Bd();
@@ -108,10 +122,12 @@ function registerExpense() {
     }
 }
 
-function loadsExpenseList() {
-    let expenses = [];
-    expenses = bd.getAllRecords();
+function loadsExpenseList(expenses = Array(), filter = false) {
+
+    if(expenses.length == 0 && filter == false) expenses = bd.getAllRecords();
+    
     let expenseList = document.getElementById('expenseList');
+    expenseList.innerHTML = '';
 
     expenses.forEach(function(d) {
         let line = expenseList.insertRow();
@@ -140,4 +156,19 @@ function loadsExpenseList() {
         line.insertCell(3).innerHTML = d.value;
     });
     
+}
+
+function searchExpenses() {
+    let year = document.getElementById('year').value;
+    let month = document.getElementById('month').value;
+    let day = document.getElementById('day').value;
+    let type = document.getElementById('type').value;
+    let description = document.getElementById('description').value;
+    let value = document.getElementById('value').value;
+
+    let expense = new Expense(year, month, day, type, description, value);
+
+    let expenses = bd.search(expense);
+    
+    loadsExpenseList(expenses, true);
 }
