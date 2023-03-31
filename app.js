@@ -48,6 +48,8 @@ class Bd {
             let expense = JSON.parse(localStorage.getItem(i));
 
             if(expense === null) continue;
+
+            expense.id = i;
             expenses.push(expense);
         }
         return expenses;
@@ -65,6 +67,10 @@ class Bd {
         if(expense.value != '') expensesFilter = expensesFilter.filter(d => d.value == expense.value);
 
         return expensesFilter;
+    }
+
+    delete(id) {
+        localStorage.removeItem(id);
     }
 }
 
@@ -150,10 +156,21 @@ function loadsExpenseList(expenses = Array(), filter = false) {
                 break;
         }
 
+        let btn = document.createElement("button");
+        btn.className = 'btn btn-danger';
+        btn.innerHTML = '<i class="fas fa-trash"></i>';
+        btn.id = `id_expense_${d.id}`;
+        btn.onclick = function() {
+            let id = this.id.replace('id_expense_', '');
+            bd.delete(id);
+            window.location.reload();
+        }
+
         line.insertCell(0).innerHTML = `${d.day}/${d.month}/${d.year}`;
         line.insertCell(1).innerHTML = d.type;
         line.insertCell(2).innerHTML = d.description;
         line.insertCell(3).innerHTML = d.value;
+        line.insertCell(4).append(btn);
     });
     
 }
