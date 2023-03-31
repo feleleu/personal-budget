@@ -189,3 +189,28 @@ function searchExpenses() {
     
     loadsExpenseList(expenses, true);
 }
+
+function yearsList() {
+    const date = new Date();
+    const currentYear = date.getFullYear();
+
+    let selectYear = document.getElementById('year');
+
+    for(let i = 3; i > 0; i--) {
+        const dto = currentYear - i;
+        createElementOption('year', dto, dto);
+    }
+
+    for(let i = 0; i < 3; i++) {
+        const dto = currentYear + i;
+        createElementOption('year', dto, dto);
+    }
+}
+
+function createElementOption(idElement, text, value) {
+    let element = document.getElementById(idElement);
+    let option = document.createElement("option");
+    option.text = text;
+    option.value = value;
+    element.appendChild(option);
+}
